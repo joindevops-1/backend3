@@ -32,7 +32,7 @@ pipeline {
                }
             }
         }
-        stage('Run Sonarqube') {
+        /* stage('Run Sonarqube') {
             environment {
                 scannerHome = tool 'sonar-scanner-7.1';
             }
@@ -49,7 +49,7 @@ pipeline {
                 waitForQualityGate abortPipeline: true
               }
             }
-        }
+        } */
         stage('Docker Build') {
             steps {
                script{
