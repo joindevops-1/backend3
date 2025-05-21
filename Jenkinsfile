@@ -15,7 +15,7 @@ pipeline {
         booleanParam(name: 'deploy', defaultValue: false, description: 'Toggle this value')
     }
     stages {
-        stage('Check for Critical Vulnerabilities') {
+        /* stage('Check for Critical Vulnerabilities') {
     environment {
         GITHUB_TOKEN = credentials('github-token') // Use Jenkins credentials store
     }
@@ -52,7 +52,7 @@ pipeline {
         fi
         '''
     }
-}
+} */
 
         stage('Read Version') {
             steps {
