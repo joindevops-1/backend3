@@ -25,19 +25,20 @@ pipeline {
 
         gh api graphql -f query='
           query {
-            repository(owner: "DAWS-82S", name: "backend") {
-              vulnerabilityAlerts(first: 100) {
-                nodes {
-                  securityVulnerability {
-                    severity
-                    package {
-                      name
-                    }
-                  }
-                }
-              }
-            }
-          }' > vuln_output.json
+  repository(owner: "joindevops-1", name: "backend3") {
+    vulnerabilityAlerts(first: 100) {
+      nodes {
+        securityVulnerability {
+          severity
+          package {
+            name
+          }
+        }
+      }
+    }
+  }
+}
+' > vuln_output.json
 
         critical_count=$(jq '[.data.repository.vulnerabilityAlerts.nodes[] | select(.securityVulnerability.severity == "CRITICAL")] | length')
 
