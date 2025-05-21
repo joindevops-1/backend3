@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Check for Critical Vulnerabilities') {
     environment {
-        GITHUB_TOKEN = credentials('github-token-id') // Use Jenkins credentials store
+        GITHUB_TOKEN = credentials('github-token') // Use Jenkins credentials store
     }
     steps {
         sh '''
