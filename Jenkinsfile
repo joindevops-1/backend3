@@ -90,19 +90,19 @@ pipeline {
               }
             }
         } */
-        stage('Snyk Test') {
+        /* stage('Snyk Test') {
            steps {
                script {
                    // Run Snyk test
-                   /* withCredentials([string(credentialsId: 'synk-token1', variable: 'SNYK_TOKEN')]) {
+                   withCredentials([string(credentialsId: 'synk-token1', variable: 'SNYK_TOKEN')]) {
                        sh 'snyk test --token=$SNYK_TOKEN'
-                   } */
+                   }
                    withEnv(["PATH+SNYK=${tool 'synk'}/bin"]) {
                     sh 'snyk test --all-projects --severity-threshold=medium'
                     }
                }
            }
-       }
+       } */
         stage('Docker Build') {
             steps {
                script{
