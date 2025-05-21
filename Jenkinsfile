@@ -25,7 +25,7 @@ pipeline {
 
         gh api graphql -f query='
           query {
-            repository(owner: "your-org", name: "your-repo") {
+            repository(owner: "daws-82s", name: "backend") {
               vulnerabilityAlerts(first: 100) {
                 nodes {
                   securityVulnerability {
