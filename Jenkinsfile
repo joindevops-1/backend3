@@ -54,7 +54,7 @@ pipeline {
            steps {
                script {
                    // Run Snyk test
-                   withCredentials([string(credentialsId: 'synk-token', variable: 'SNYK_TOKEN')]) {
+                   withCredentials([string(credentialsId: 'synk-token1', variable: 'SNYK_TOKEN')]) {
                        sh 'snyk test --token=$SNYK_TOKEN'
                    }
                }
