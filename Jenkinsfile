@@ -5,6 +5,7 @@ pipeline {
         COMPONENT = 'backend'
         appVersion = ''
         ACC_ID = '315069654700'
+        GITHUB_TOKEN = credentials('github-token') // store in Jenkins credentials
     }
     options {
         disableConcurrentBuilds()
@@ -14,6 +15,39 @@ pipeline {
         booleanParam(name: 'deploy', defaultValue: false, description: 'Toggle this value')
     }
     stages {
+        stage('Check for Critical Vulnerabilities') {
+            steps {
+                sh '''
+                gh auth login --with-token <<< "$GITHUB_TOKEN"
+                gh api graphql -f query='
+                  query {
+                    repository(owner: "daws-82s", name: "backend") {
+                      vulnerabilityAlerts(first: 100) {
+                        nodes {
+                          securityVulnerability {
+                            severity
+                            package {
+                              name
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }' > vuln_output.json
+
+                critical_count=$(jq '[.data.repository.vulnerabilityAlerts.nodes[] | select(.securityVulnerability.severity == "CRITICAL")] | length' vuln_output.json)
+                
+                echo "Found $critical_count critical vulnerabilities"
+
+                if [ "$critical_count" -gt 0 ]; then
+                    echo "❌ Critical vulnerabilities found! Failing the build."
+                    exit 1
+                else
+                    echo "✅ No critical vulnerabilities found."
+                fi
+                '''
+            }
+        }
         stage('Read Version') {
             steps {
                script{
